@@ -1,0 +1,13 @@
+%EXPR SP TERM ; 
+	SP [+-] @BINOP ;  SP ; TERM ; * ; 
+	"" |  @EXPR
+%TERM FACT SP [/*] @BINOP ; SP ; FACT ; * ; @TERM
+%FACT ATOM SP ; "^" @POW SP ; ATOM ; * ; @FACT
+%ATOM FUNC VAR | NUM | BRACKETS | UNARY |
+%FUNC NAME @NAME "(" ; EXPR @ARG ; SP ; ")" ; @FUNC
+%VAR NAME @VAR
+%UNARY [+-] @UNOP UNARY ! ; ATOM ;
+%NUM {09} {09} * ; "." {09} * ; ? ; @NUM
+%BRACKETS "(" EXPR ; ")" ;
+%SP [ \t\n] * 
+%NAME {az} {AZ} | "_" | {09} {az} | {AZ} | * ;

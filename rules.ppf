@@ -1,0 +1,15 @@
+%RULES COMMENT RULE | "\n" ; * @RULES 
+%COMMENT SP "--" ; [\n] ! . ; * ; 
+%RULE ATOM @ANT SP ; "=>" ; SP ; ATOM @CONS ;  SP ; @RULE
+%ATOM  LEAF APPLY | EVAL | LIST | 
+%APPLY  "[" SP ; NAME ; SP ATOM ; * ; SP ; @APPLY "]" ;
+%EVAL  "${" SP ; NAME ; SP ATOM ; * ; SP ; @EVAL "}" ;
+%LIST  "{"  SP ATOM ; * ; SP  ; @LIST "}" ;
+%SP  [ \t] * 
+%LEAF  CONSTM  ANYM | VARM | CONST | ELLIPSIS | NAME | 
+%CONSTM "C_" {09} ? ;  @CONSTM 
+%ANYM  "_" {09} ? ;   @ANYM 
+%VARM  "V_" {09} ? ; @VARM 
+%CONST {09} {09} * ; "." ? ; {09} * ; @NUM
+%NAME  {az} {AZ} | [+-/*^] | {az} {AZ} | * ; @NAME 
+%ELLIPSIS "..." @ELLIPSIS 
